@@ -9,7 +9,7 @@ Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou u
 #### ORM
 - Sequelize
 
-## Utilisation
+## Configuration
 
 #### Fichier .sql
 
@@ -24,3 +24,8 @@ Créez un fichier .env à la racine du projet contenant les informations suivant
     DB_USER=<username>
     DB_PASS=<password>
     DB_NAME=<name_of_the_database>
+    
+ ## Utilisation
+ 
+ Une fois le projet télécharger, il vous suffit de lancer la commande :
+ `node ./app.js`
