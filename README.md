@@ -6,6 +6,7 @@ Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou u
 - Syntaxe PostgreSQL
 #### Base de donnée
 - PostgreSQL
+- MariaDB / Mysql
 #### ORM
 - Sequelize
 
