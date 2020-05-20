@@ -80,7 +80,7 @@ class pgController {
   }
 
   // Take all tables from a postgre database and transform it to a JSON object
-  async formPostgreDBToJSON() {
+  async fromPostgreDBToJSON() {
     let db = [];
     const client = new Client({
       host: process.env.DB_HOST,
@@ -89,7 +89,11 @@ class pgController {
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
     });
-    client.connect();
+    client.connect().catch((err) => {
+      console.log(
+        "Modelize can't connect to you DB ! Please check your .env !\n"
+      );
+    });
 
     let res = await client.query(
       "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"

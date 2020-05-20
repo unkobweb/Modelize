@@ -6,6 +6,8 @@ const chalk = require("chalk");
 // Controllers
 const pgController = require("./controllers/pgController");
 const postgre = new pgController();
+const mariadbController = require("./controllers/mariadbController");
+const mariadb = new mariadbController();
 
 // Check if Models directory exist, if not, create it
 let dir = "./models";
@@ -21,7 +23,10 @@ async function askUser() {
     type: "list",
     name: "SQLType",
     message: "Would you use a SQL file or a DB connection ?\n",
-    choices: ["DB Connection - " + chalk.green.bold("RECOMMANDED"), "SQL File"],
+    choices: [
+      "DB Connection - " + chalk.green.bold("RECOMMANDED"),
+      "SQL File - " + chalk.blue.bold("PostgreSQL only"),
+    ],
   });
   answer = answer.SQLType.toString();
 
@@ -30,12 +35,16 @@ async function askUser() {
     type: "list",
     name: "database",
     message: "What is the database used ?\n",
-    choices: [chalk.blue.bold("PostgreSQL")],
+    choices:
+      answer == "SQL File"
+        ? [chalk.blue.bold("PostgreSQL")]
+        : [chalk.blue.bold("PostgreSQL"), chalk.yellow.bold("MariaDB / MySQL")],
   });
   database = database.database.toString();
   console.log("\n");
 
   if (answer == "SQL File") {
+    // SQL FILE
     let filename = "";
     while (1) {
       filename = await inquirer.prompt({
@@ -54,15 +63,16 @@ async function askUser() {
       postgre.readFile(filename);
     }
   } else {
+    // DB CONNECTION
     if (!process.env.DB_HOST) {
       console.log(chalk.red("DB_HOST in .env not found !"));
       process.exit(1);
     }
     if (!process.env.DB_PORT) {
       console.log(
-        chalk.red("DB_PORT in .env not found ! Default port will be used !")
+        chalk.red("DB_PORT in .env not found !") +
+          " Default port will be used !\n"
       );
-      process.exit(1);
     }
     if (!process.env.DB_USER) {
       console.log(chalk.red("DB_USER in .env not found !"));
@@ -77,7 +87,9 @@ async function askUser() {
       process.exit(1);
     }
     if (database == chalk.blue.bold("PostgreSQL")) {
-      postgre.formPostgreDBToJSON();
+      postgre.fromPostgreDBToJSON();
+    } else if (database == chalk.yellow.bold("MariaDB / MySQL")) {
+      mariadb.fromMariaDBToJSON();
     }
   }
 }
