@@ -1,7 +1,9 @@
 // Modules
 const fs = require("fs");
+const inquirer = require("inquirer");
+const chalk = require("chalk");
+
 // Controllers
-const modelController = require("./controllers/modelController");
 const pgController = require("./controllers/pgController");
 const postgre = new pgController();
 
@@ -12,11 +14,71 @@ if (!fs.existsSync(dir)) {
   fs.mkdirSync(dir);
 }
 
-postgre.readFile();
+// CLI
+async function askUser() {
+  console.log("\n");
+  let answer = await inquirer.prompt({
+    type: "list",
+    name: "SQLType",
+    message: "Would you use a SQL file or a DB connection ?\n",
+    choices: ["DB Connection - " + chalk.green.bold("RECOMMANDED"), "SQL File"],
+  });
+  answer = answer.SQLType.toString();
 
-//formPostgreDBToJSON().then((res) => console.log(JSON.stringify(res, null, 2)));
-/*formPostgreDBToJSON().then((res) => {
-  for (let table of res) {
-    fromJSONtoModel(table);
+  console.log("\n");
+  let database = await inquirer.prompt({
+    type: "list",
+    name: "database",
+    message: "What is the database used ?\n",
+    choices: [chalk.blue.bold("PostgreSQL")],
+  });
+  database = database.database.toString();
+  console.log("\n");
+
+  if (answer == "SQL File") {
+    let filename = "";
+    while (1) {
+      filename = await inquirer.prompt({
+        type: "input",
+        name: "filename",
+        message: "What is the name of the SQL file ?\n",
+      });
+      filename = filename.filename.replace("./", "").replace(".sql", "");
+      if (fs.existsSync("./" + filename + ".sql")) {
+        console.log(chalk.green.bold("\n./" + filename + ".sql found !\n"));
+        break;
+      }
+      console.log(chalk.red.bold("\n./" + filename + ".sql not found !\n"));
+    }
+    if (database == chalk.blue.bold("PostgreSQL")) {
+      postgre.readFile(filename);
+    }
+  } else {
+    if (!process.env.DB_HOST) {
+      console.log(chalk.red("DB_HOST in .env not found !"));
+      process.exit(1);
+    }
+    if (!process.env.DB_PORT) {
+      console.log(
+        chalk.red("DB_PORT in .env not found ! Default port will be used !")
+      );
+      process.exit(1);
+    }
+    if (!process.env.DB_USER) {
+      console.log(chalk.red("DB_USER in .env not found !"));
+      process.exit(1);
+    }
+    if (!process.env.DB_PASS) {
+      console.log(chalk.red("DB_PASS in .env not found !"));
+      process.exit(1);
+    }
+    if (!process.env.DB_NAME) {
+      console.log(chalk.red("DB_NAME in .env not found !"));
+      process.exit(1);
+    }
+    if (database == chalk.blue.bold("PostgreSQL")) {
+      postgre.formPostgreDBToJSON();
+    }
   }
-});*/
+}
+askUser();

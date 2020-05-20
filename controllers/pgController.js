@@ -95,7 +95,7 @@ class pgController {
       "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"
     );
     //console.log(err ? err : res.rows);
-
+    console.log(`${res.rows.length} tables found\n`);
     for (let table of res.rows) {
       let objet = {
         nom: table.table_name,
@@ -116,7 +116,9 @@ class pgController {
       //console.log(objet);
       db.push(objet);
     }
-    return db;
+    for (let table of db) {
+      modelController.fromJSONtoModel(table, this.convert);
+    }
   }
 
   // Read content of data.sql
@@ -127,6 +129,7 @@ class pgController {
       } else {
         //console.log(JSON.stringify(fromPostgreToJSON(contents), null, 2));
         let db = this.fromPostgreSQLToJSON(contents);
+        console.log(`${db.length} tables found\n`);
         for (let table of db) {
           modelController.fromJSONtoModel(table, this.convert);
         }

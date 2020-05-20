@@ -3,7 +3,7 @@ const fs = require("fs");
 
 class modelController {
   // Change JSON object to a .js model
-  static fromJSONtoModel(table, convert) {
+  static async fromJSONtoModel(table, convert) {
     let nom =
       table.nom[table.nom.length - 1] == "s"
         ? table.nom.slice(0, -1)
@@ -32,9 +32,11 @@ class modelController {
       "\n\t},\n\t{\n\t\ttimestamps: false,\n\t}\n);\n\nmodule.exports = " +
       nom +
       ";";
-    fs.writeFile("./models/" + nom + ".js", content, (err) => {
+    await fs.writeFile("./models/" + nom + ".js", content, (err) => {
       if (err) {
         console.log(err);
+      } else {
+        console.log(nom + " model has been created");
       }
     });
   }
