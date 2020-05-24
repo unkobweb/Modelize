@@ -46,7 +46,7 @@ class modelController {
     let allChoices = [];
     for (let table of tables) {
       allChoices.push({
-        name: table.TABLE_NAME,
+        name: table.TABLE_NAME || table.table_name,
         checked: true,
       });
     }
@@ -56,7 +56,6 @@ class modelController {
       message: `${tables.length} tables found, choose which you want :\n`,
       choices: allChoices,
     });
-    console.log();
     return choosen;
   }
 }

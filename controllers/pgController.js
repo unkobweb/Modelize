@@ -98,17 +98,17 @@ class pgController {
     let res = await client.query(
       "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"
     );
-    //console.log(err ? err : res.rows);
-    console.log(`${res.rows.length} tables found\n`);
-    for (let table of res.rows) {
+
+    let allChoices = await modelController.selectTable(res.rows);
+    for (let table of allChoices.choosen) {
       let objet = {
-        nom: table.table_name,
+        nom: table,
         attributs: [],
       };
       //console.log(table.table_name);
       let lignes = await client.query(
         "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1",
-        [table.table_name]
+        [table]
       );
       //console.log(lignes.rows);
       for (let ligne of lignes.rows) {
