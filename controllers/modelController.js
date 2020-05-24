@@ -1,5 +1,6 @@
 // Modules
 const fs = require("fs");
+const inquirer = require("inquirer");
 
 class modelController {
   // Change JSON object to a .js model
@@ -39,6 +40,24 @@ class modelController {
         console.log(nom + " model has been created");
       }
     });
+  }
+
+  static async selectTable(tables) {
+    let allChoices = [];
+    for (let table of tables) {
+      allChoices.push({
+        name: table.TABLE_NAME,
+        checked: true,
+      });
+    }
+    let choosen = await inquirer.prompt({
+      type: "checkbox",
+      name: "choosen",
+      message: `${tables.length} tables found, choose which you want :\n`,
+      choices: allChoices,
+    });
+    console.log();
+    return choosen;
   }
 }
 

@@ -43,7 +43,7 @@ async function askUser() {
   database = database.database.toString();
   console.log("\n");
 
-  if (answer == "SQL File") {
+  if (answer == "SQL File - " + chalk.blue.bold("PostgreSQL only")) {
     // SQL FILE
     let filename = "";
     while (1) {
