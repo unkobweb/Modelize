@@ -31,7 +31,7 @@ class mariadbController {
     }
   }
 
-  async fromMariaDBToJSON() {
+  async fromMariaDBToJSON(orm) {
     let db = [];
 
     let connection = mysql.createConnection({
@@ -55,6 +55,7 @@ class mariadbController {
       );
     });
     let allTable = await getAllTable;
+    let allChoices = await modelController.selectTable(allTable);
 
     function getAllColumn(name) {
       return new Promise((resolve, reject) => {
@@ -68,7 +69,6 @@ class mariadbController {
             "';",
           (err, rows) => {
             for (let ligne of rows) {
-              console.log(ligne);
               objet.attributs.push({
                 nom: ligne.column_name,
                 type: ligne.data_type,
@@ -80,11 +80,11 @@ class mariadbController {
         );
       });
     }
-    for (let table of allTable) {
-      await getAllColumn(table.TABLE_NAME);
+    for (let table of allChoices.choosen) {
+      await getAllColumn(table);
     }
     for (let table of db) {
-      modelController.fromJSONtoModel(table, this.convert);
+      modelController.fromJSONtoModel(table, this.convert, orm);
     }
   }
 }

@@ -10,6 +10,7 @@ class pgController {
     "integer",
     "text",
     "timestamp",
+    "timestamp without time zone",
     "date",
     "boolean",
     "numeric",
@@ -18,6 +19,7 @@ class pgController {
     "INTEGER",
     "INTEGER",
     "STRING",
+    "DATE",
     "DATE",
     "DATEONLY",
     "BOOLEAN",
@@ -80,7 +82,7 @@ class pgController {
   }
 
   // Take all tables from a postgre database and transform it to a JSON object
-  async fromPostgreDBToJSON() {
+  async fromPostgreDBToJSON(orm) {
     let db = [];
     const client = new Client({
       host: process.env.DB_HOST,
@@ -98,17 +100,17 @@ class pgController {
     let res = await client.query(
       "SELECT table_name FROM information_schema.tables WHERE table_schema='public'"
     );
-    //console.log(err ? err : res.rows);
-    console.log(`${res.rows.length} tables found\n`);
-    for (let table of res.rows) {
+
+    let allChoices = await modelController.selectTable(res.rows);
+    for (let table of allChoices.choosen) {
       let objet = {
-        nom: table.table_name,
+        nom: table,
         attributs: [],
       };
       //console.log(table.table_name);
       let lignes = await client.query(
         "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1",
-        [table.table_name]
+        [table]
       );
       //console.log(lignes.rows);
       for (let ligne of lignes.rows) {
@@ -121,7 +123,7 @@ class pgController {
       db.push(objet);
     }
     for (let table of db) {
-      modelController.fromJSONtoModel(table, this.convert);
+      modelController.fromJSONtoModel(table, this.convert, orm);
     }
   }
 
@@ -135,7 +137,7 @@ class pgController {
         let db = this.fromPostgreSQLToJSON(contents);
         console.log(`${db.length} tables found\n`);
         for (let table of db) {
-          modelController.fromJSONtoModel(table, this.convert);
+          modelController.fromJSONtoModel(table, this.convert, orm);
         }
       }
     });
