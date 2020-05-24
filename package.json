@@ -1,6 +1,6 @@
 {
   "name": "modelize-cli",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Modelize is a CLI program who can create models from a DB connection or a SQL file for several ORM",
   "main": "modelize.js",
   "author": "kobweb",
