@@ -9,6 +9,7 @@ Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou u
 - MariaDB / MySQL
 #### ORM
 - Sequelize
+- Eloquent
 
 ## Configuration
 
