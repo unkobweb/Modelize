@@ -1,13 +1,21 @@
 {
-  "name": "modelize",
-  "version": "1.0.0",
-  "description": "",
+  "name": "modelize-cli",
+  "version": "1.4.0",
+  "description": "Modelize is a CLI program who can create models from a DB connection or a SQL file for several ORM",
   "main": "modelize.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "author": "kobweb",
+  "license": "MIT",
+  "repository": "unkobweb/modelize",
+  "keywords": [
+    "CLI",
+    "Models",
+    "ORM",
+    "Eloquent",
+    "Sequelize",
+    "PostgreSQL",
+    "MySQL",
+    "MariaDB"
+  ],
   "dependencies": {
     "chalk": "^4.0.0",
     "dotenv": "^8.2.0",
