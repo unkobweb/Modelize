@@ -19,6 +19,15 @@ if (!fs.existsSync(dir)) {
 // CLI
 async function askUser() {
   console.log("\n");
+  let ORM = await inquirer.prompt({
+    type: "list",
+    name: "ORM",
+    message: "Select your ORM ?\n",
+    choices: [chalk.yellow.bold("Sequelize"), chalk.magenta.bold("Eloquent")],
+  });
+  ORM = ORM.ORM.toString();
+  console.log("\n");
+
   let answer = await inquirer.prompt({
     type: "list",
     name: "SQLType",
