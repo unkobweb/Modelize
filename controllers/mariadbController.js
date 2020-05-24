@@ -31,7 +31,7 @@ class mariadbController {
     }
   }
 
-  async fromMariaDBToJSON() {
+  async fromMariaDBToJSON(orm) {
     let db = [];
 
     let connection = mysql.createConnection({
@@ -84,7 +84,7 @@ class mariadbController {
       await getAllColumn(table);
     }
     for (let table of db) {
-      modelController.fromJSONtoModel(table, this.convert);
+      modelController.fromJSONtoModel(table, this.convert, orm);
     }
   }
 }

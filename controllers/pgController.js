@@ -82,7 +82,7 @@ class pgController {
   }
 
   // Take all tables from a postgre database and transform it to a JSON object
-  async fromPostgreDBToJSON() {
+  async fromPostgreDBToJSON(orm) {
     let db = [];
     const client = new Client({
       host: process.env.DB_HOST,
@@ -123,7 +123,7 @@ class pgController {
       db.push(objet);
     }
     for (let table of db) {
-      modelController.fromJSONtoModel(table, this.convert);
+      modelController.fromJSONtoModel(table, this.convert, orm);
     }
   }
 
@@ -137,7 +137,7 @@ class pgController {
         let db = this.fromPostgreSQLToJSON(contents);
         console.log(`${db.length} tables found\n`);
         for (let table of db) {
-          modelController.fromJSONtoModel(table, this.convert);
+          modelController.fromJSONtoModel(table, this.convert, orm);
         }
       }
     });

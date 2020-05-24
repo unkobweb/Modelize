@@ -19,14 +19,6 @@ if (!fs.existsSync(dir)) {
 // CLI
 async function askUser() {
   console.log("\n");
-  let ORM = await inquirer.prompt({
-    type: "list",
-    name: "ORM",
-    message: "Select your ORM ?\n",
-    choices: [chalk.yellow.bold("Sequelize"), chalk.magenta.bold("Eloquent")],
-  });
-  ORM = ORM.ORM.toString();
-  console.log("\n");
 
   let answer = await inquirer.prompt({
     type: "list",
@@ -38,6 +30,15 @@ async function askUser() {
     ],
   });
   answer = answer.SQLType.toString();
+  console.log("\n");
+
+  let ORM = await inquirer.prompt({
+    type: "list",
+    name: "ORM",
+    message: "Select your ORM ?\n",
+    choices: [chalk.yellow.bold("Sequelize"), chalk.magenta.bold("Eloquent")],
+  });
+  ORM = ORM.ORM.toString();
 
   console.log("\n");
   let database = await inquirer.prompt({
@@ -96,9 +97,9 @@ async function askUser() {
       process.exit(1);
     }
     if (database == chalk.blue.bold("PostgreSQL")) {
-      postgre.fromPostgreDBToJSON();
+      postgre.fromPostgreDBToJSON(ORM);
     } else if (database == chalk.yellow.bold("MariaDB / MySQL")) {
-      mariadb.fromMariaDBToJSON();
+      mariadb.fromMariaDBToJSON(ORM);
     }
   }
 }
