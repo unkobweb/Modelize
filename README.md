@@ -1,3 +1,4 @@
+![npm](https://img.shields.io/npm/v/modelize-cli)
 # Modelize
 Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou une connexion vers une base de donnée en plusieurs modèle (un par table) pour différents ORM
 
@@ -26,6 +27,7 @@ Créez un fichier .env à la racine du projet contenant les informations suivant
     DB_USER=<username>
     DB_PASS=<password>
     DB_NAME=<name_of_the_database>
+    
     
  ## Utilisation
  
