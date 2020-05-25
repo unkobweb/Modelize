@@ -29,8 +29,8 @@ Créez un fichier .env à la racine du projet contenant les informations suivant
     DB_PASS=<password>
     DB_NAME=<name_of_the_database>
     
-    
- ## Utilisation
+
+## Utilisation
  
- Une fois le projet télécharger, il vous suffit de lancer la commande :
- `node ./modelize.js`
+Une fois le projet télécharger, il vous suffit de lancer la commande :
+`node ./modelize.js`
