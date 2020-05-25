@@ -112,12 +112,23 @@ class pgController {
         "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = $1",
         [table]
       );
-      //console.log(lignes.rows);
+      let primary = await client.query(
+        "select column_name from information_schema.table_constraints tco join information_schema.key_column_usage kcu on kcu.constraint_name = tco.constraint_name and kcu.constraint_schema = tco.constraint_schema and kcu.constraint_name = tco.constraint_name where tco.constraint_type = 'PRIMARY KEY' AND kcu.table_name = $1 order by kcu.table_schema, kcu.table_name;",
+        [table]
+      );
+      let primarys = [];
+      for (let key of primary.rows) {
+        primarys.push(key.column_name);
+      }
       for (let ligne of lignes.rows) {
-        objet.attributs.push({
+        let attribut = {
           nom: ligne.column_name,
           type: ligne.data_type,
-        });
+        };
+        if (primarys.indexOf(ligne.column_name) != -1) {
+          attribut.primaryKey = true;
+        }
+        objet.attributs.push(attribut);
       }
       //console.log(objet);
       db.push(objet);

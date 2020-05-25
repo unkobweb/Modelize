@@ -64,15 +64,20 @@ class mariadbController {
           attributs: [],
         };
         connection.query(
-          "SELECT column_name, data_type FROM information_schema.columns WHERE table_name='" +
+          "SELECT column_name, data_type, column_key FROM information_schema.columns WHERE table_name='" +
             name +
             "';",
           (err, rows) => {
             for (let ligne of rows) {
-              objet.attributs.push({
+              let attribut = {
                 nom: ligne.column_name,
                 type: ligne.data_type,
-              });
+              };
+              console.log(ligne);
+              if (ligne.column_key == "PRI") {
+                attribut.primaryKey = true;
+              }
+              objet.attributs.push(attribut);
             }
             db.push(objet);
             resolve();
