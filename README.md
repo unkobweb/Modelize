@@ -32,5 +32,8 @@ Créez un fichier .env à la racine du projet contenant les informations suivant
 
 ## Utilisation
  
-Une fois le projet télécharger, il vous suffit de lancer la commande :
-`node ./modelize.js`
+Commande pour installer le projet :
+`npm install -g modelize-cli`
+
+Ensuite il vous suffit de lancer la commande suivante depuis la racine de votre projet :
+`modelize`
