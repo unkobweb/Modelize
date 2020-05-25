@@ -1,12 +1,12 @@
 ![npm](https://img.shields.io/npm/v/modelize-cli)
 ![npm bundle size](https://img.shields.io/bundlephobia/min/modelize)
 # Modelize
-Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou une connexion vers une base de donnée en plusieurs modèle (un par table) pour différents ORM
+Modelize is a NodeJS script which allow you to transform a sql file or a database connexion into several models (one by table) for different ORM.
 
-## Disponibilité
-#### Fichier SQL
-- Syntaxe PostgreSQL
-#### Base de donnée
+## Compatibility
+#### SQL File
+- PostgreSQL syntax
+#### Databases
 - PostgreSQL
 - MariaDB / MySQL
 #### ORM
@@ -15,16 +15,16 @@ Modelize est un script NodeJS ayant pour but de transformer un fichier .sql ou u
 
 ## Configuration
 
-#### Fichier .sql
+#### SQL File
 
-Un fichier `data.sql` contenant le script de création de vos tables utilisant les syntaxes supportées (Voir catégorie "Disponibilité"). Ne pas oublier les `;` en fin de requête pour la bonne exécution du script
+A `data.sql` sql file contains the script of creation of your tables, using syntaxs supported (See category « Compatibility »). Don’t forget to use ` ; `  at the end of your requests to make the script work.
 
-#### Connexion à une base de donnée
+#### Database connection
 
-Créez un fichier .env à la racine du projet contenant les informations suivantes :
+Create .env file at the root of your project containing the next informations :
 
     DB_HOST=<your_host_address>
-    DB_PORT=<port_of_the_database> //If empty, it will take the default port of your SGBDR
+    DB_PORT=<port_of_the_database> //If it's empty, it will take the default port of your SGBDR
     DB_USER=<username>
     DB_PASS=<password>
     DB_NAME=<name_of_the_database>
@@ -32,8 +32,8 @@ Créez un fichier .env à la racine du projet contenant les informations suivant
 
 ## Utilisation
  
-Commande pour installer le projet :
+Instruction to install the project :  
 `npm install -g modelize-cli`
 
-Ensuite il vous suffit de lancer la commande suivante depuis la racine de votre projet :
+Then you just need to launch the nex instruction from the root of your project :
 `modelize`
