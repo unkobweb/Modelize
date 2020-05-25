@@ -1,12 +1,14 @@
+#!/usr/bin/env node
+
 // Modules
 const fs = require("fs");
 const inquirer = require("inquirer");
 const chalk = require("chalk");
 
 // Controllers
-const pgController = require("./controllers/pgController");
+const pgController = require("../controllers/pgController");
 const postgre = new pgController();
-const mariadbController = require("./controllers/mariadbController");
+const mariadbController = require("../controllers/mariadbController");
 const mariadb = new mariadbController();
 
 // Check if Models directory exist, if not, create it
